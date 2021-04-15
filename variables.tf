@@ -38,14 +38,21 @@ variable "vpc_database_subnet_ids" {
   description = "VPC database subnet ids."
 }
 
-variable "dns_name" {
+variable "dns_subdomain" {
   type        = string
-  description = "DNS name for this instance of script-runner. Must match 'dns_zone_id'."
+  default     = "script-runner"
+  description = "Subdomain to prefix to dns_zone_name. API will be served under this subdomain."
 }
 
 variable "dns_zone_id" {
   type        = string
-  description = "Identifier of the Route53 Hosted Zone for this instance of script-runner."
+  description = "Identifier of the Route53 Hosted Zone for the parent domain of this instance of script-runner."
+}
+
+variable "auth_provider" {
+  type        = string
+  description = "Auth provider to use for authentication/authorization. Supports 'auth0' and 'none'."
+  default     = "auth0"
 }
 
 variable "auth0_domain" {

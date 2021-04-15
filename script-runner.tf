@@ -1,5 +1,9 @@
 data "aws_caller_identity" "current" {}
 
+data "aws_route53_zone" "dns_zone" {
+  zone_id = var.dns_zone_id
+}
+
 
 # Service definitions
 
@@ -46,7 +50,7 @@ resource "aws_ecs_task_definition" "labflow_script_runner" {
       },
       {
         "name": "AUTH_PROVIDER",
-        "value": "auth0"
+        "value": "${var.auth_provider}"
       },
       {
         "name": "AUTH0_DOMAIN",
@@ -181,7 +185,7 @@ resource "aws_security_group" "script_runner_firewall" {
 # DNS/SSL
 
 resource "aws_acm_certificate" "script_runner" {
-  domain_name       = var.dns_name
+  domain_name       = "${var.dns_subdomain}.${data.aws_route53_zone.dns_zone.name}"
   validation_method = "DNS"
 
   tags = {
@@ -205,7 +209,7 @@ resource "aws_acm_certificate_validation" "script_runner_cert" {
 
 resource "aws_route53_record" "script_runner_alb" {
   zone_id = var.dns_zone_id
-  name    = "script-runner"
+  name    = var.dns_subdomain
   type    = "A"
 
   alias {
