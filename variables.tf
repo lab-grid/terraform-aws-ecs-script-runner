@@ -57,17 +57,20 @@ variable "auth_provider" {
 
 variable "auth0_domain" {
   type        = string
-  description = "Domain for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Domain for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 variable "auth0_audience" {
   type        = string
-  description = "Audience for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Audience for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 variable "auth0_client_id" {
   type        = string
-  description = "Identifier for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Identifier for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 # variable "lb_log_bucket" {
